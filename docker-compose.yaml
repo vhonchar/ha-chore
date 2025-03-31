@@ -1,0 +1,14 @@
+version: "3.9"
+
+services:
+  homeassistant:
+    image: homeassistant/home-assistant:latest
+    entrypoint: "hass --config ."
+    container_name: homeassistant
+    restart: unless-stopped
+    ports:
+      - "8123:8123"
+    volumes:
+      - ./.storage:/config/.storage
+      - ./custom_components:/config/custom_components
+      - ./configuration.yaml:/config/configuration.yaml
