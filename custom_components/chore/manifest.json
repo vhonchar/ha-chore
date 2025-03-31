@@ -1,0 +1,12 @@
+{
+  "domain": "chore",
+  "name": "Chore",
+  "codeowners": ["@vhonchar"],
+  "dependencies": [],
+  "documentation": "https://github.com/home-assistant/example-custom-config/tree/master/custom_components/example_sensor/",
+  "config_flow": true,
+  "iot_class": "calculated",
+  "integration_type": "helper",
+  "requirements": [],
+  "version": "0.0.1"
+}

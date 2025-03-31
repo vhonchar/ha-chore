@@ -1,0 +1,51 @@
+{
+  "title": "Chore",
+  "config": {
+    "step": {
+      "user": {
+        "title": "Create Chore",
+        "description": "Chores allow you to track chores around the house, automatically advance them and receive notification when some maintenance is due.",
+        "menu_options": {
+          "scheduled": "Scheduled",
+          "countdown": "Countdown"
+        }
+      },
+      "scheduled": {
+        "title": "[%key:component::chore::config::step::user::title%]",
+        "description": "Schedule scheduled chore: daily, weekly, etc",
+        "data": {
+          "name": "[%key:common::config_flow::data::name%]",
+          "period": "Period",
+          "period_name": "Period name",
+          "start_from": "Start from"
+        }
+      },
+      "countdown": {
+        "title": "[%key:component::chore::config::step::user::title%]",
+        "description": "Notify about necessity to perform this chore after set amount of executions (clean filter after N runs of dryer)",
+        "data": {
+          "name": "[%key:common::config_flow::data::name%]",
+          "limit": "Limit"
+        }
+      }
+    }
+  },
+  "options": {
+    "step": {
+      "scheduled": {
+        "description": "[%key:component::chore::config::step::scheduled::description%]",
+        "data": {
+          "period": "[%key:component::chore::config::step::scheduled::data::period%]",
+          "period_name": "[%key:component::chore::config::step::scheduled::data::period_name%]",
+          "start_from": "[%key:component::chore::config::step::scheduled::data::start_from%]"
+        }
+      },
+      "countdown": {
+        "description": "[%key:component::chore::config::step::countdown::description%]",
+        "data": {
+          "limit": "[%key:component::chore::config::step::countdown::data::limit%]"
+        }
+      }
+    }
+  }
+}
