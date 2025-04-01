@@ -11,20 +11,20 @@
         }
       },
       "scheduled": {
-        "title": "[%key:component::chore::config::step::user::title%]",
-        "description": "Schedule scheduled chore: daily, weekly, etc",
+        "title": "Create Scheduled Chore",
+        "description": "Schedule a chore: daily, weekly, etc",
         "data": {
-          "name": "[%key:common::config_flow::data::name%]",
+          "name": "Name",
           "period": "Period",
-          "period_name": "Period name",
+          "schedule_type": "Schedule type",
           "start_from": "Start from"
         }
       },
       "countdown": {
-        "title": "[%key:component::chore::config::step::user::title%]",
-        "description": "Notify about necessity to perform this chore after set amount of executions (clean filter after N runs of dryer)",
+        "title": "Create Countdown Chore",
+        "description": "Chore based on a countdown. For example: filter in dryer should be cleaned after N cycles. Cat's litter should be cleaned after X \"poops\"",
         "data": {
-          "name": "[%key:common::config_flow::data::name%]",
+          "name": "Name",
           "limit": "Limit"
         }
       }
@@ -33,17 +33,17 @@
   "options": {
     "step": {
       "scheduled": {
-        "description": "[%key:component::chore::config::step::scheduled::description%]",
+        "description": "Schedule a chore: daily, weekly, etc",
         "data": {
-          "period": "[%key:component::chore::config::step::scheduled::data::period%]",
-          "period_name": "[%key:component::chore::config::step::scheduled::data::period_name%]",
-          "start_from": "[%key:component::chore::config::step::scheduled::data::start_from%]"
+          "period": "Period",
+          "schedule_type": "Schedule type",
+          "start_from": "Stat from"
         }
       },
       "countdown": {
-        "description": "[%key:component::chore::config::step::countdown::description%]",
+        "description": "Chore based on a countdown. For example: filter in dryer should be cleaned after N cycles. Cat's litter should be cleaned after X \"poops\"",
         "data": {
-          "limit": "[%key:component::chore::config::step::countdown::data::limit%]"
+          "limit": "Limit"
         }
       }
     }
