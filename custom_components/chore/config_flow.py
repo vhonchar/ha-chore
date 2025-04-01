@@ -32,7 +32,7 @@ SCHEDULED_CHORE_SCHEMA = vol.Schema({
         mode=selector.NumberSelectorMode.BOX,
         step=1,
     )),
-    vol.Required('period_name'): selector.SelectSelector(selector.SelectSelectorConfig(
+    vol.Required('schedule_type'): selector.SelectSelector(selector.SelectSelectorConfig(
         options=[const.DAY, const.WEEK, const.MONTH],
         mode=selector.SelectSelectorMode.DROPDOWN
     )),

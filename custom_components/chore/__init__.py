@@ -4,27 +4,14 @@ from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import Platform
 from homeassistant.core import HomeAssistant
 
-from custom_components.chore.const import DOMAIN, PLATFORMS
+from custom_components.chore.chore_countdown import CountdownChore
+from custom_components.chore.chore_scheduled import ScheduledChore
+from custom_components.chore.const import DOMAIN, PLATFORMS, CountdownFeatures
 
 LOG = logging.getLogger(__name__)
 
-# COMPLETE_NOW_SCHEMA = vol.Schema(
-#     {
-#         vol.Required(CONF_ENTITY_ID): vol.All(cv.ensure_list, [cv.string]),
-#         vol.Optional(const.ATTR_LAST_COMPLETED): cv.datetime,
-#     }
-# )
-
-
 async def async_setup(hass: HomeAssistant, config: dict) -> bool:
     """Set up platform - register services, initialize data structure."""
-
-    # hass.services.async_register(
-    #     DOMAIN,
-    #     "create",
-    #     chore_service.create,
-    #     schema=COMPLETE_NOW_SCHEMA,
-    # )
 
     return True
 

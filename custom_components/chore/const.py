@@ -1,3 +1,5 @@
+from enum import IntFlag
+
 from homeassistant.const import Platform
 
 DOMAIN = 'chore'
@@ -13,3 +15,9 @@ WEEK='WEEK'
 MONTH='MONTH'
 
 DEFAULT_SCHEDULE_TYPE=DAY
+
+# features
+class CountdownFeatures(IntFlag):
+    """Supported features of the countdown chore entity."""
+
+    INCREMENT = 1
