@@ -20,7 +20,7 @@ class ScheduledChore(SensorEntity):
         return ScheduledChore(
             config_entry.title,
             period=config_entry.options.get('period', 1),
-            period_name=config_entry.options.get('period_name', DEFAULT_SCHEDULE_TYPE),
+            schedule_type=config_entry.options.get('schedule_type', DEFAULT_SCHEDULE_TYPE),
             start_from=to_date(start_from),
             unique_id=config_entry.entry_id,
         )
@@ -34,18 +34,17 @@ class ScheduledChore(SensorEntity):
 
     _attr_icon = 'mdi:broom'
 
-    def __init__(self, name, period, period_name, start_from, unique_id):
+    def __init__(self, name, period, schedule_type, start_from, unique_id):
         super().__init__()
         self._attr_name = name
         self._period = period
-        self._period_name = period_name
+        self._schedule_type = schedule_type
         self._start_from = start_from
         self._attr_unique_id = unique_id
 
     def update(self) -> None:
-        """Fetch new state data for the sensor.
-
-        This is the only method that should fetch new data for Home Assistant.
+        """
+        Calculate state based on due date
         """
         self._attr_native_value = 'good' if randint(0, 1) == 0 else 'past'
 
@@ -53,6 +52,6 @@ class ScheduledChore(SensorEntity):
     def extra_state_attributes(self):
         return {
             'period': self._period,
-            'period_name': self._period_name,
+            'schedule_type': self._schedule_type,
             'start_from': self._start_from,
         }

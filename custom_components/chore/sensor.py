@@ -5,11 +5,12 @@ import logging
 
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
+from homeassistant.helpers import entity_platform, selector
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 
 from custom_components.chore.chore_countdown import CountdownChore
 from custom_components.chore.chore_scheduled import ScheduledChore
-from custom_components.chore.const import SCHEDULED_CHORE, COUNTDOWN_CHORE
+from custom_components.chore.const import SCHEDULED_CHORE, COUNTDOWN_CHORE, CountdownFeatures
 
 LOG = logging.getLogger(__name__)
 
@@ -25,10 +26,21 @@ async def async_setup_entry(hass: HomeAssistant, config_entry: ConfigEntry, asyn
 
     chore_type = config_entry.options.get('chore_type', '')
 
-    if ENTITY_FACTORY.get(chore_type, None) is not None:
-        entity = ENTITY_FACTORY[chore_type](config_entry=config_entry)
-        async_add_entities([entity])
-
-        LOG.warning(f'Added entity {entity.entity_id} ({entity.name}) for config entry {config_entry.entry_id} to HA')
-    else:
+    if ENTITY_FACTORY.get(chore_type, None) is None:
         raise ValueError(f'Unsupported chore type {chore_type} in {config_entry.entry_id}({config_entry.title})')
+
+    entity = ENTITY_FACTORY[chore_type](config_entry=config_entry)
+    async_add_entities([entity])
+    LOG.warning(f'Added entity {entity.entity_id} ({entity.name}) for config entry {config_entry.entry_id} to HA')
+
+    platform = entity_platform.async_get_current_platform()
+    platform.async_register_entity_service(
+        'increment',
+        {
+            'increment': int
+        },
+        'increment',
+        required_features=[
+            CountdownFeatures.INCREMENT
+        ]
+    )
