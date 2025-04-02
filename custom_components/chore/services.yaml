@@ -6,7 +6,6 @@ increment:
       domain: sensor
   fields:
     increment:
-      required: true
       description: Increment to the sensor
       example: 1
       default: 1

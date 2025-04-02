@@ -16,6 +16,20 @@ MONTH='MONTH'
 
 DEFAULT_SCHEDULE_TYPE=DAY
 
+# sensor states
+STATE_UPCOMING='upcoming'   # scheduled and upcoming in some time
+STATE_SOON='soon'           # due in couple days/cycles
+STATE_OVERDUE='overdue'     # overdue
+
+SUPPORTED_STATES = [
+    STATE_UPCOMING,
+    STATE_SOON,
+    STATE_OVERDUE,
+]
+
+# amount of days before next due date to mark a chore as "soon"
+DUE_SOON_DAYS = 2
+
 # features
 class CountdownFeatures(IntFlag):
     """Supported features of the countdown chore entity."""

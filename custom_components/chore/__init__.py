@@ -8,7 +8,7 @@ from custom_components.chore.chore_countdown import CountdownChore
 from custom_components.chore.chore_scheduled import ScheduledChore
 from custom_components.chore.const import DOMAIN, PLATFORMS, CountdownFeatures
 
-LOG = logging.getLogger(__name__)
+_LOG = logging.getLogger(__name__)
 
 async def async_setup(hass: HomeAssistant, config: dict) -> bool:
     """Set up platform - register services, initialize data structure."""
@@ -25,7 +25,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
 
 async def update_listener(hass: HomeAssistant, entry: ConfigEntry):
     """Handle options update."""
-    LOG.warning(f'entry {entry.entry_id} ({entry.title}) is updated. Should I do something?')
+    _LOG.debug('Config entry %s (%s) is updated. Restarting Corresponding platforms...', entry.entry_id, entry.title)
 
     await hass.config_entries.async_forward_entry_unload(entry, Platform.SENSOR)
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
