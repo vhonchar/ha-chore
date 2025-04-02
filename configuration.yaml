@@ -1,6 +1,7 @@
-
 # Loads default set of integrations. Do not remove.
 default_config:
 
-## Example configuration.yaml entry
-#chore:
+logger:
+  default: warn
+  logs:
+    custom_components.chore: debug
