@@ -1,12 +1,9 @@
-from datetime import datetime
-
 from homeassistant.components.sensor import SensorEntity, SensorDeviceClass
 from homeassistant.config_entries import ConfigEntry
 
-from custom_components.chore.const import CountdownFeatures
-
-def to_date(date_as_string: str):
-    return datetime.strptime(date_as_string, '%Y-%m-%d')
+from custom_components.chore import const
+from custom_components.chore.const import CountdownFeatures, SUPPORTED_STATES
+from custom_components.chore.utils import filter_kwargs_for_init
 
 class CountdownChore(SensorEntity):
     """Sensor to notify when a chore is due based on a countdown"""
@@ -14,17 +11,12 @@ class CountdownChore(SensorEntity):
     @classmethod
     def from_config_entry(cls, config_entry: ConfigEntry):
         return CountdownChore(
-            config_entry.title,
-            limit=config_entry.options.get('limit', 1),
             unique_id=config_entry.entry_id,
+            **filter_kwargs_for_init(CountdownChore, config_entry.options)
         )
 
     _attr_device_class = SensorDeviceClass.ENUM
-    _attr_options = [
-        'past',
-        'due_soon',
-        'good'
-    ]
+    _attr_options = SUPPORTED_STATES
     _attr_icon = 'mdi:broom'
     _attr_should_poll = False
     _attr_supported_features = CountdownFeatures.INCREMENT
@@ -51,4 +43,8 @@ class CountdownChore(SensorEntity):
         self.async_write_ha_state()
 
     def _calculate_state(self):
-        self._attr_native_value = 'past' if self._counter_state <= 0 else 'due_soon' if self._counter_state <= 2 else 'good'
+        self._attr_native_value = (
+            const.STATE_OVERDUE if self._counter_state <= 0
+            else const.STATE_SOON if self._counter_state <= 2
+            else const.STATE_UPCOMING
+        )
