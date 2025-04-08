@@ -4,9 +4,9 @@ from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import Platform
 from homeassistant.core import HomeAssistant
 
-from custom_components.chore.chore_countdown import CountdownChore
+from custom_components.chore.chore_counter import CounterChore
 from custom_components.chore.chore_scheduled import ScheduledChore
-from custom_components.chore.const import DOMAIN, PLATFORMS, CountdownFeatures
+from custom_components.chore.const import DOMAIN, PLATFORMS, CounterFeatures
 
 _LOG = logging.getLogger(__name__)
 

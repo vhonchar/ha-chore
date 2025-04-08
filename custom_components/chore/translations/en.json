@@ -7,7 +7,7 @@
         "description": "Chores allow you to track chores around the house, automatically advance them and receive notification when some maintenance is due.",
         "menu_options": {
           "scheduled": "Scheduled",
-          "countdown": "Countdown"
+          "counter": "Counter"
         }
       },
       "scheduled": {
@@ -20,9 +20,9 @@
           "start_from": "Start from"
         }
       },
-      "countdown": {
-        "title": "Create Countdown Chore",
-        "description": "Chore based on a countdown. For example: filter in dryer should be cleaned after N cycles. Cat's litter should be cleaned after X \"poops\"",
+      "counter": {
+        "title": "Create Counter Chore",
+        "description": "Chore based on a counter. For example: filter in dryer should be cleaned after N cycles. Cat's litter should be cleaned after X \"poops\"",
         "data": {
           "name": "Name",
           "limit": "Limit"
@@ -40,8 +40,8 @@
           "start_from": "Stat from"
         }
       },
-      "countdown": {
-        "description": "Chore based on a countdown. For example: filter in dryer should be cleaned after N cycles. Cat's litter should be cleaned after X \"poops\"",
+      "counter": {
+        "description": "Chore based on a counter. For example: filter in dryer should be cleaned after N cycles. Cat's litter should be cleaned after X \"poops\"",
         "data": {
           "limit": "Limit"
         }

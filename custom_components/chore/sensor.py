@@ -9,15 +9,15 @@ from homeassistant.exceptions import InvalidStateError
 from homeassistant.helpers import entity_platform
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 
-from custom_components.chore.chore_countdown import CountdownChore
+from custom_components.chore.chore_counter import CounterChore
 from custom_components.chore.chore_scheduled import ScheduledChore
-from custom_components.chore.const import SCHEDULED_CHORE, COUNTDOWN_CHORE, CountdownFeatures
+from custom_components.chore.const import SCHEDULED_CHORE, COUNTER_CHORE, CounterFeatures
 
 _LOG = logging.getLogger(__name__)
 
 ENTITY_FACTORY = {
     SCHEDULED_CHORE: ScheduledChore.from_config_entry,
-    COUNTDOWN_CHORE: CountdownChore.from_config_entry,
+    COUNTER_CHORE: CounterChore.from_config_entry,
 }
 
 async def async_setup_entry(hass: HomeAssistant, config_entry: ConfigEntry, async_add_entities: AddEntitiesCallback) -> None:
@@ -48,6 +48,6 @@ def _register_services():
         },
         'increment',
         required_features=[
-            CountdownFeatures.INCREMENT
+            CounterFeatures.INCREMENT
         ]
     )
