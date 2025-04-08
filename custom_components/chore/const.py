@@ -7,7 +7,7 @@ PLATFORMS = [Platform.SENSOR]
 
 # types of chores
 SCHEDULED_CHORE = 'scheduled'
-COUNTDOWN_CHORE = 'countdown'
+COUNTER_CHORE = 'counter'
 
 # types of scheduled chores
 DAY='DAY'
@@ -31,7 +31,7 @@ SUPPORTED_STATES = [
 DUE_SOON_DAYS = 2
 
 # features
-class CountdownFeatures(IntFlag):
-    """Supported features of the countdown chore entity."""
+class CounterFeatures(IntFlag):
+    """Supported features of the counter chore entity."""
 
     INCREMENT = 1

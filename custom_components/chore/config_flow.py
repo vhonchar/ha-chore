@@ -42,7 +42,7 @@ SCHEDULED_CHORE_SCHEMA = vol.Schema({
     vol.Required('start_from', default=datetime.today().date().isoformat()): selector.DateSelector(),
 })
 
-COUNTDOWN_CHORE_SCHEMA = vol.Schema({
+COUNTER_CHORE_SCHEMA = vol.Schema({
     vol.Required('limit', default=10): selector.NumberSelector(selector.NumberSelectorConfig(
         min=1,
         mode=selector.NumberSelectorMode.BOX,
@@ -51,21 +51,21 @@ COUNTDOWN_CHORE_SCHEMA = vol.Schema({
 })
 
 CONFIG_FLOW: dict[str, SchemaFlowFormStep | SchemaFlowMenuStep] = {
-    'user': SchemaFlowMenuStep([const.SCHEDULED_CHORE, const.COUNTDOWN_CHORE]),
+    'user': SchemaFlowMenuStep([const.SCHEDULED_CHORE, const.COUNTER_CHORE]),
     const.SCHEDULED_CHORE: SchemaFlowFormStep(
         BASIC_SCHEMA.extend(SCHEDULED_CHORE_SCHEMA.schema),
         validate_user_input=set_chore_type(const.SCHEDULED_CHORE)
     ),
-    const.COUNTDOWN_CHORE: SchemaFlowFormStep(
-        BASIC_SCHEMA.extend(COUNTDOWN_CHORE_SCHEMA.schema),
-        validate_user_input=set_chore_type(const.COUNTDOWN_CHORE)
+    const.COUNTER_CHORE: SchemaFlowFormStep(
+        BASIC_SCHEMA.extend(COUNTER_CHORE_SCHEMA.schema),
+        validate_user_input=set_chore_type(const.COUNTER_CHORE)
     ),
 }
 
 OPTIONS_FLOW: dict[str, SchemaFlowFormStep | SchemaFlowMenuStep] = {
     'init': SchemaFlowFormStep(next_step=choose_options_step),
     const.SCHEDULED_CHORE: SchemaFlowFormStep(SCHEDULED_CHORE_SCHEMA),
-    const.COUNTDOWN_CHORE: SchemaFlowFormStep(COUNTDOWN_CHORE_SCHEMA),
+    const.COUNTER_CHORE: SchemaFlowFormStep(COUNTER_CHORE_SCHEMA),
 }
 
 class ChoreHelperConfigFlowHandler(SchemaConfigFlowHandler, domain=const.DOMAIN):
