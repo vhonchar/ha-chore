@@ -1,11 +1,21 @@
 increment:
-  description: Increment counter in a chore
   target:
     entity:
       integration: chore
       domain: sensor
   fields:
     increment:
-      description: Increment to the sensor
       example: 1
       default: 1
+
+complete:
+  target:
+    entity:
+      integration: chore
+      domain: sensor
+  fields:
+    reset_from_today:
+      example: true
+      default: true
+      selector:
+        boolean:

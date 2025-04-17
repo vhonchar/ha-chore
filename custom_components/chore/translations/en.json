@@ -47,5 +47,27 @@
         }
       }
     }
+  },
+  "services": {
+    "increment": {
+      "name": "Increment",
+      "description": "Increment counter in a chore (only for Counter Chore type)",
+      "fields": {
+        "increment": {
+          "name": "Increment",
+          "description": "Increment to the sensor"
+        }
+      }
+    },
+    "complete": {
+      "name": "Complete",
+      "description": "Complete and reset specified chore",
+      "fields": {
+        "reset_from_today": {
+          "name": "Reset from today",
+          "description": "Set next due date starting from today or from the \"last due date\". For example, if a chore should be done only on Wed every week, turn this flag off to set next due date to the next Wed upon completion. (applicable only to scheduled chores)"
+        }
+      }
+    }
   }
 }
