@@ -32,6 +32,7 @@ class CounterChore(SensorEntity):
     @property
     def extra_state_attributes(self):
         return {
+            'chore_integration': True,
             'counter_state': self._counter_state,
             'limit': self._limit
         }
