@@ -41,6 +41,7 @@ class ScheduledChore(SensorEntity):
         self.reset(start_from)
 
     def _calculate_next_due_date(self, start_from: date) -> date:
+
         if self._schedule_type == DAY:
             return start_from + timedelta(days=self._period)
         elif self._schedule_type == WEEK:
@@ -53,6 +54,7 @@ class ScheduledChore(SensorEntity):
     @property
     def extra_state_attributes(self):
         return {
+            'chore_integration': True,
             'period': self._period,
             'schedule_type': self._schedule_type,
             'start_from': self._start_from,
