@@ -51,3 +51,11 @@ def _register_services():
             CounterFeatures.INCREMENT
         ]
     )
+
+    platform.async_register_entity_service(
+        'complete',
+        {
+            'reset_from_today': bool
+        },
+        'complete',
+    )

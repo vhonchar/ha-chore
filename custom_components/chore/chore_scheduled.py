@@ -34,22 +34,11 @@ class ScheduledChore(SensorEntity):
         self._attr_name = name
         self._period = period
         self._schedule_type = schedule_type
-        self._start_from = start_from
         self._attr_unique_id = unique_id
         self._next_due_date = None
+        self._last_completion_date = start_from
 
-        self.reset(start_from)
-
-    def _calculate_next_due_date(self, start_from: date) -> date:
-
-        if self._schedule_type == DAY:
-            return start_from + timedelta(days=self._period)
-        elif self._schedule_type == WEEK:
-            return start_from + timedelta(weeks=self._period)
-        elif self._schedule_type == MONTH:
-            return start_from + relativedelta(months=self._period)
-        else:
-            raise ValueError(f'Unsupported schedule type: {self._schedule_type}')
+        self._set_next_due_date(start_from)
 
     @property
     def extra_state_attributes(self):
@@ -57,8 +46,8 @@ class ScheduledChore(SensorEntity):
             'chore_integration': True,
             'period': self._period,
             'schedule_type': self._schedule_type,
-            'start_from': self._start_from,
             'next_due_date': self._next_due_date,
+            'last_completion_date': self._last_completion_date
         }
 
     def update(self) -> None:
@@ -73,13 +62,28 @@ class ScheduledChore(SensorEntity):
            else STATE_UPCOMING
         )
 
-    def reset(self, start_from: date = date.today()):
+    def _set_next_due_date(self, completion_date: date):
         """calculate next due date"""
 
-        self._next_due_date = self._calculate_next_due_date(start_from)
+        self._next_due_date = self._calculate_next_due_date(completion_date)
+        self._last_completion_date = completion_date
         self.update()
 
         _LOG.debug('Reset entity %s to the next due date %s. Updated state to %s', self.entity_id, self._next_due_date.isoformat(), self._attr_native_value)
 
         if self._platform_state == EntityPlatformState.ADDED:
             self.async_write_ha_state()
+
+    def _calculate_next_due_date(self, start_from: date) -> date:
+
+        if self._schedule_type == DAY:
+            return start_from + timedelta(days=self._period)
+        elif self._schedule_type == WEEK:
+            return start_from + timedelta(weeks=self._period)
+        elif self._schedule_type == MONTH:
+            return start_from + relativedelta(months=self._period)
+        else:
+            raise ValueError(f'Unsupported schedule type: {self._schedule_type}')
+
+    async def complete(self, reset_from_today: bool):
+        self._set_next_due_date(date.today() if reset_from_today else self._next_due_date)

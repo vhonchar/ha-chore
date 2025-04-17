@@ -49,3 +49,8 @@ class CounterChore(SensorEntity):
             else const.STATE_SOON if self._limit - self._counter_state <= 2
             else const.STATE_UPCOMING
         )
+
+    async def complete(self, reset_from_today: bool):
+        self._counter_state = 0
+        self._calculate_state()
+        self.async_write_ha_state()
