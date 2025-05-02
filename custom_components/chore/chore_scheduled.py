@@ -29,11 +29,11 @@ class ScheduledChore(SensorEntity):
 
     _attr_icon = 'mdi:broom'
 
-    def __init__(self, name: str, period: int, schedule_type: str, start_from: date, unique_id: str):
+    def __init__(self, name: str, interval: int, interval_unit: str, start_from: date, unique_id: str):
         super().__init__()
         self._attr_name = name
-        self._period = period
-        self._schedule_type = schedule_type
+        self._interval = interval
+        self._interval_unit = interval_unit
         self._attr_unique_id = unique_id
         self._next_due_date = None
         self._last_completion_date = start_from
@@ -44,8 +44,8 @@ class ScheduledChore(SensorEntity):
     def extra_state_attributes(self):
         return {
             'chore_integration': True,
-            'period': self._period,
-            'schedule_type': self._schedule_type,
+            'interval': self._interval,
+            'interval_unit': self._interval_unit,
             'next_due_date': self._next_due_date,
             'last_completion_date': self._last_completion_date
         }
@@ -76,14 +76,14 @@ class ScheduledChore(SensorEntity):
 
     def _calculate_next_due_date(self, start_from: date) -> date:
 
-        if self._schedule_type == DAY:
-            return start_from + timedelta(days=self._period)
-        elif self._schedule_type == WEEK:
-            return start_from + timedelta(weeks=self._period)
-        elif self._schedule_type == MONTH:
-            return start_from + relativedelta(months=self._period)
+        if self._interval_unit == DAY:
+            return start_from + timedelta(days=self._interval)
+        elif self._interval_unit == WEEK:
+            return start_from + timedelta(weeks=self._interval)
+        elif self._interval_unit == MONTH:
+            return start_from + relativedelta(months=self._interval)
         else:
-            raise ValueError(f'Unsupported schedule type: {self._schedule_type}')
+            raise ValueError(f'Unsupported schedule type: {self._interval_unit}')
 
     async def complete(self, reset_from_today: bool):
         self._set_next_due_date(date.today() if reset_from_today else self._next_due_date)

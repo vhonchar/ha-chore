@@ -27,7 +27,7 @@ BASIC_SCHEMA = vol.Schema({
 })
 
 SCHEDULED_CHORE_SCHEMA = vol.Schema({
-    vol.Required('period', default=1): vol.All(
+    vol.Required('interval', default=1): vol.All(
             selector.NumberSelector(selector.NumberSelectorConfig(
             min=1,
             mode=selector.NumberSelectorMode.BOX,
@@ -35,7 +35,7 @@ SCHEDULED_CHORE_SCHEMA = vol.Schema({
         )),
         vol.Coerce(int)
     ),
-    vol.Required('schedule_type'): selector.SelectSelector(selector.SelectSelectorConfig(
+    vol.Required('interval_unit'): selector.SelectSelector(selector.SelectSelectorConfig(
         options=[const.DAY, const.WEEK, const.MONTH],
         mode=selector.SelectSelectorMode.DROPDOWN
     )),

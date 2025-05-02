@@ -9,7 +9,7 @@ PLATFORMS = [Platform.SENSOR]
 SCHEDULED_CHORE = 'scheduled'
 COUNTER_CHORE = 'counter'
 
-# types of scheduled chores
+# schedule units
 DAY='DAY'
 WEEK='WEEK'
 MONTH='MONTH'
