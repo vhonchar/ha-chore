@@ -5,3 +5,7 @@ logger:
   default: warn
   logs:
     custom_components.chore: debug
+
+http:
+  cors_allowed_origins:
+    - http://localhost:8124
