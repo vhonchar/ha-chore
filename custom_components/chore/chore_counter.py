@@ -37,6 +37,11 @@ class CounterChore(SensorEntity):
             'limit': self._limit
         }
 
+    async def set_counter(self, counter_state: int):
+        self._counter_state = counter_state
+        self._calculate_state()
+        self.async_write_ha_state()
+
     async def increment(self, increment: int):
         """Increment current state by provided value"""
         self._counter_state += increment

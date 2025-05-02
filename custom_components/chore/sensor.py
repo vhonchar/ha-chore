@@ -59,3 +59,15 @@ def _register_services():
         },
         'complete',
     )
+
+    platform.async_register_entity_service(
+        'set_counter',
+        {
+            'counter_state': int
+        },
+        'set_counter',
+        required_features=[
+            CounterFeatures.INCREMENT
+        ]
+    )
+

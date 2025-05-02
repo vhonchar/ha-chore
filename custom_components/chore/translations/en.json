@@ -59,6 +59,16 @@
         }
       }
     },
+    "set_counter": {
+      "name": "Set Counter State",
+      "description": "Set state of a counter within a chore",
+      "fields": {
+        "counter_state": {
+          "name": "Counter State",
+          "description": "New value for the counter"
+        }
+      }
+    },
     "complete": {
       "name": "Complete",
       "description": "Complete and reset specified chore",

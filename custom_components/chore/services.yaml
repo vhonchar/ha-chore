@@ -8,6 +8,16 @@ increment:
       example: 1
       default: 1
 
+set_counter:
+  target:
+    entity:
+      integration: chore
+      domain: sensor
+  fields:
+    counter_state:
+      example: 1
+      default: 1
+
 complete:
   target:
     entity:
