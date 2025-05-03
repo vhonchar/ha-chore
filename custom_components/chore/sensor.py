@@ -32,7 +32,7 @@ async def async_setup_entry(hass: HomeAssistant, config_entry: ConfigEntry, asyn
     if factory_function is None:
         raise InvalidStateError(f'Unsupported chore type {chore_type} in {config_entry.entry_id}({config_entry.title})')
 
-    entity = factory_function(config_entry)
+    entity = factory_function(hass, config_entry)
     async_add_entities([entity])
     _LOG.debug('Added entity %s (%s) for config entry {config_entry.entry_id} to HA', entity.entity_id, entity.name)
 

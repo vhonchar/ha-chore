@@ -2,7 +2,7 @@ import logging
 from typing import Any, cast, Coroutine, Callable
 
 import voluptuous as vol
-from datetime import datetime
+from datetime import date
 from homeassistant.core import callback
 from homeassistant.helpers.schema_config_entry_flow import SchemaConfigFlowHandler, SchemaFlowFormStep, SchemaFlowMenuStep, SchemaCommonFlowHandler
 from homeassistant.helpers import selector
@@ -39,7 +39,7 @@ SCHEDULED_CHORE_SCHEMA = vol.Schema({
         options=[const.DAY, const.WEEK, const.MONTH],
         mode=selector.SelectSelectorMode.DROPDOWN
     )),
-    vol.Required('start_from', default=datetime.today().date().isoformat()): selector.DateSelector(),
+    vol.Required('start_from', default=date.today().isoformat()): selector.DateSelector(),
 })
 
 COUNTER_CHORE_SCHEMA = vol.Schema({

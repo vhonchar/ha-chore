@@ -8,6 +8,8 @@ services:
     restart: unless-stopped
     ports:
       - "8123:8123"
+    environment:
+      - TZ=America/Los_Angeles
     volumes:
       - ./.storage:/config/.storage
       - ./custom_components:/config/custom_components
