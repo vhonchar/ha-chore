@@ -88,14 +88,13 @@ class ScheduledChore(SensorEntity, RestoreEntity):
            else STATE_UPCOMING
         )
 
-    def _set_next_due_date(self, completion_date: date):
+    def _set_next_due_date(self, starting_from: date):
         """calculate next due date"""
 
-        self._next_due_date = self._calculate_next_due_date(completion_date)
+        self._next_due_date = self._calculate_next_due_date(starting_from)
         while self._next_due_date < ha_today(self.hass):
             self._next_due_date = self._calculate_next_due_date(self._next_due_date)
 
-        self._last_completion_date = completion_date
         self.update()
 
         _LOG.debug('Reset entity %s to the next due date %s. Updated state to %s', self.entity_id, self._next_due_date.isoformat(), self._attr_native_value)
@@ -117,4 +116,5 @@ class ScheduledChore(SensorEntity, RestoreEntity):
     async def complete(self, reset_from_today: bool):
         today = ha_today(self.hass)
         _LOG.debug(f'today is {today}')
+        self._last_completion_date = today
         self._set_next_due_date(today if reset_from_today else self._next_due_date)
