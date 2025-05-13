@@ -1,43 +1,43 @@
 import logging
 from datetime import date, timedelta
-from typing import override
+from typing import Any, override
 
 from dateutil.relativedelta import relativedelta
-from homeassistant.components.sensor import SensorEntity, SensorDeviceClass
+from homeassistant.components.sensor import SensorDeviceClass, SensorEntity
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity import EntityPlatformState
 from homeassistant.helpers.restore_state import RestoreEntity
 
-from custom_components.chore.const import WEEK, DAY, SUPPORTED_STATES, STATE_OVERDUE, STATE_SOON, STATE_UPCOMING, MONTH, DUE_SOON_DAYS
+from custom_components.chore.const import DAY, DUE_SOON_DAYS, MONTH, STATE_OVERDUE, STATE_SOON, STATE_UPCOMING, SUPPORTED_STATES, WEEK
 from custom_components.chore.utils import filter_kwargs_for_init, ha_today
 
 _LOG = logging.getLogger(__name__)
 
 class ScheduledChore(SensorEntity, RestoreEntity):
-    """Sensor to notify whether chore is due/past based on current date"""
+    """Sensor to notify whether chore is due/past based on current date."""
 
     @classmethod
-    def from_config_entry(cls, hass: HomeAssistant, config_entry: ConfigEntry):
+    def from_config_entry(cls, hass: HomeAssistant, config_entry: ConfigEntry) -> "ScheduledChore":
 
-        start_from = config_entry.options.get('start_from', ha_today(hass).isoformat())
+        start_from = config_entry.options.get("start_from", ha_today(hass).isoformat())
 
         start_from = date.fromisoformat(start_from)
-        _LOG.debug(f'start from date is {start_from}')
+        _LOG.debug(f"start from date is {start_from}")
 
         return ScheduledChore(
             unique_id=config_entry.entry_id,
             hass=hass,
             start_from=start_from,
-            **filter_kwargs_for_init(ScheduledChore, config_entry.options, skip_additionally=['start_from'])
+            **filter_kwargs_for_init(ScheduledChore, config_entry.options, skip_additionally=["start_from"])
         )
 
     _attr_device_class = SensorDeviceClass.ENUM
     _attr_options = SUPPORTED_STATES
 
-    _attr_icon = 'mdi:broom'
+    _attr_icon = "mdi:broom"
 
-    def __init__(self, hass: HomeAssistant, name: str, interval: int, interval_unit: str, start_from: date, unique_id: str):
+    def __init__(self, hass: HomeAssistant, *, name: str, interval: int, interval_unit: str, start_from: date, unique_id: str) -> None:  # noqa: PLR0913
         super().__init__()
         self.hass = hass
         self._attr_name = name
@@ -56,30 +56,28 @@ class ScheduledChore(SensorEntity, RestoreEntity):
 
         # Restore stored state
         if (last_state := await self.async_get_last_state()) is not None:
-            _LOG.debug(f'found previous state of counter chore {self.entity_id}')
+            _LOG.debug(f"found previous state of counter chore {self.entity_id}")
 
-            last_completion_date = last_state.attributes.get('last_completion_date')
+            last_completion_date = last_state.attributes.get("last_completion_date")
             self._last_completion_date = date.fromisoformat(last_completion_date) if last_completion_date is not None else self._last_completion_date
 
-            next_due_date = last_state.attributes.get('next_due_date')
+            next_due_date = last_state.attributes.get("next_due_date")
             self._next_due_date = date.fromisoformat(next_due_date) if next_due_date is not None else self._next_due_date
 
             self.update()
 
     @property
-    def extra_state_attributes(self):
+    def extra_state_attributes(self) -> dict[str, Any]:
         return {
-            'chore_integration': True,
-            'interval': self._interval,
-            'interval_unit': self._interval_unit,
-            'next_due_date': self._next_due_date.isoformat(),
-            'last_completion_date': self._last_completion_date.isoformat(),
+            "chore_integration": True,
+            "interval": self._interval,
+            "interval_unit": self._interval_unit,
+            "next_due_date": self._next_due_date.isoformat(),
+            "last_completion_date": self._last_completion_date.isoformat(),
         }
 
     def update(self) -> None:
-        """
-        Calculate state based on due date
-        """
+        """Calculate state based on due date."""
         current_date = ha_today(self.hass)
         self._attr_native_value = (
             STATE_OVERDUE
@@ -88,16 +86,15 @@ class ScheduledChore(SensorEntity, RestoreEntity):
            else STATE_UPCOMING
         )
 
-    def _set_next_due_date(self, starting_from: date):
-        """calculate next due date"""
-
+    def _set_next_due_date(self, starting_from: date) -> None:
+        """Calculate next due date."""
         self._next_due_date = self._calculate_next_due_date(starting_from)
         while self._next_due_date < ha_today(self.hass):
             self._next_due_date = self._calculate_next_due_date(self._next_due_date)
 
         self.update()
 
-        _LOG.debug('Reset entity %s to the next due date %s. Updated state to %s', self.entity_id, self._next_due_date.isoformat(), self._attr_native_value)
+        _LOG.debug("Reset entity %s to the next due date %s. Updated state to %s", self.entity_id, self._next_due_date.isoformat(), self._attr_native_value)
 
         if self._platform_state == EntityPlatformState.ADDED:
             self.async_write_ha_state()
@@ -106,15 +103,14 @@ class ScheduledChore(SensorEntity, RestoreEntity):
 
         if self._interval_unit == DAY:
             return start_from + timedelta(days=self._interval)
-        elif self._interval_unit == WEEK:
+        if self._interval_unit == WEEK:
             return start_from + timedelta(weeks=self._interval)
-        elif self._interval_unit == MONTH:
+        if self._interval_unit == MONTH:
             return start_from + relativedelta(months=self._interval)
-        else:
-            raise ValueError(f'Unsupported schedule type: {self._interval_unit}')
+        raise ValueError(f"Unsupported schedule type: {self._interval_unit}")
 
-    async def complete(self, reset_from_today: bool):
+    async def complete(self, *, reset_from_today: bool) -> None:
         today = ha_today(self.hass)
-        _LOG.debug(f'today is {today}')
+        _LOG.debug(f"today is {today}")
         self._last_completion_date = today
         self._set_next_due_date(today if reset_from_today else self._next_due_date)

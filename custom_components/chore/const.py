@@ -2,24 +2,24 @@ from enum import IntFlag
 
 from homeassistant.const import Platform
 
-DOMAIN = 'chore'
+DOMAIN = "chore"
 PLATFORMS = [Platform.SENSOR]
 
 # types of chores
-SCHEDULED_CHORE = 'scheduled'
-COUNTER_CHORE = 'counter'
+SCHEDULED_CHORE = "scheduled"
+COUNTER_CHORE = "counter"
 
 # schedule units
-DAY='DAY'
-WEEK='WEEK'
-MONTH='MONTH'
+DAY="DAY"
+WEEK="WEEK"
+MONTH="MONTH"
 
 DEFAULT_SCHEDULE_TYPE=DAY
 
 # sensor states
-STATE_UPCOMING='upcoming'   # scheduled and upcoming in some time
-STATE_SOON='soon'           # due in couple days/cycles
-STATE_OVERDUE='overdue'     # overdue
+STATE_UPCOMING="upcoming"   # scheduled and upcoming in some time
+STATE_SOON="soon"           # due in couple days/cycles
+STATE_OVERDUE="overdue"     # overdue
 
 SUPPORTED_STATES = [
     STATE_UPCOMING,

@@ -2,16 +2,19 @@
 from __future__ import annotations
 
 import logging
+from typing import TYPE_CHECKING
 
-from homeassistant.config_entries import ConfigEntry
-from homeassistant.core import HomeAssistant
 from homeassistant.exceptions import InvalidStateError
 from homeassistant.helpers import entity_platform
-from homeassistant.helpers.entity_platform import AddEntitiesCallback
 
 from custom_components.chore.chore_counter import CounterChore
 from custom_components.chore.chore_scheduled import ScheduledChore
-from custom_components.chore.const import SCHEDULED_CHORE, COUNTER_CHORE, CounterFeatures
+from custom_components.chore.const import COUNTER_CHORE, SCHEDULED_CHORE, CounterFeatures
+
+if TYPE_CHECKING:
+    from homeassistant.config_entries import ConfigEntry
+    from homeassistant.core import HomeAssistant
+    from homeassistant.helpers.entity_platform import AddEntitiesCallback
 
 _LOG = logging.getLogger(__name__)
 
@@ -21,53 +24,51 @@ ENTITY_FACTORY = {
 }
 
 async def async_setup_entry(hass: HomeAssistant, config_entry: ConfigEntry, async_add_entities: AddEntitiesCallback) -> None:
-    """register entities for new configs created via 'Helpers'"""
+    """Register entities for new configs created via 'Helpers'."""
+    _LOG.debug("creating entity for a new config %s", config_entry.title)
+    _LOG.debug("options %s", config_entry.options)
 
-    _LOG.debug('creating entity for a new config %s', config_entry.title)
-    _LOG.debug('options %s', config_entry.options)
+    chore_type = config_entry.options.get("chore_type", "")
 
-    chore_type = config_entry.options.get('chore_type', '')
-
-    factory_function = ENTITY_FACTORY.get(chore_type, None)
+    factory_function = ENTITY_FACTORY.get(chore_type)
     if factory_function is None:
-        raise InvalidStateError(f'Unsupported chore type {chore_type} in {config_entry.entry_id}({config_entry.title})')
+        raise InvalidStateError(f"Unsupported chore type {chore_type} in {config_entry.entry_id}({config_entry.title})")
 
     entity = factory_function(hass, config_entry)
     async_add_entities([entity])
-    _LOG.debug('Added entity %s (%s) for config entry {config_entry.entry_id} to HA', entity.entity_id, entity.name)
+    _LOG.debug("Added entity %s (%s) for config entry {config_entry.entry_id} to HA", entity.entity_id, entity.name)
 
     _register_services()
 
-def _register_services():
+def _register_services() -> None:
     platform = entity_platform.async_get_current_platform()
 
     platform.async_register_entity_service(
-        'increment',
+        "increment",
         {
-            'increment': int
+            "increment": int
         },
-        'increment',
+        "increment",
         required_features=[
             CounterFeatures.INCREMENT
         ]
     )
 
     platform.async_register_entity_service(
-        'complete',
+        "complete",
         {
-            'reset_from_today': bool
+            "reset_from_today": bool
         },
-        'complete',
+        "complete",
     )
 
     platform.async_register_entity_service(
-        'set_counter',
+        "set_counter",
         {
-            'counter_state': int
+            "counter_state": int
         },
-        'set_counter',
+        "set_counter",
         required_features=[
             CounterFeatures.INCREMENT
         ]
     )
-
