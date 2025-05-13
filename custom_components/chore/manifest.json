@@ -4,9 +4,9 @@
   "codeowners": ["@vhonchar"],
   "config_flow": true,
   "dependencies": [],
-  "documentation": "https://github.com/home-assistant/example-custom-config/tree/master/custom_components/example_sensor/",
+  "documentation": "https://github.com/vhonchar/ha-chore",
   "integration_type": "helper",
   "iot_class": "calculated",
   "requirements": [],
-  "version": "0.0.3"
+  "version": "0.0.4"
 }
