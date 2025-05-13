@@ -13,7 +13,7 @@ A custom Home Assistant integration to help you track and manage recurring chore
 ### Via [HACS](https://hacs.xyz)
 
 1. In HACS, go to **Integrations** > **⋮ (menu)** > **Custom repositories**
-2. Add this repository: `https://github.com/vhonchar/chore`
+2. Add this repository: `https://github.com/vhonchar/ha-chore`
 3. Select category: **Integration**
 4. Install “Chore Helper” from HACS integrations
 
