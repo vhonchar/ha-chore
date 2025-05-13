@@ -13,4 +13,4 @@ services:
     volumes:
       - ./.storage:/config/.storage
       - ./custom_components:/config/custom_components
-      - ./configuration.yaml:/config/configuration.yaml
+      - ./config/configuration.yaml:/config/configuration.yaml

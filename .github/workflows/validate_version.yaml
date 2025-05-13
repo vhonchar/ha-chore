@@ -1,0 +1,27 @@
+name: Validate Version
+
+on:
+  workflow_call:
+  pull_request:
+    branches:
+      - main
+
+permissions: {}
+
+jobs:
+  validate-version:
+    name: Validate version
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v4.2.2
+        with:
+          fetch-tags: true
+
+      - name: Install tools
+        run: |
+          sudo apt-get update && sudo apt-get install -y jq
+          chmod +x ./bin/*
+
+          ls -la bin
+          ./bin/validate-version.sh
