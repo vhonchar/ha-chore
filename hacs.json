@@ -1,0 +1,8 @@
+{
+  "name": "Chore Helper",
+  "country": "us",
+  "domain": "chore",
+  "codeowners": ["@vhonchar"],
+  "integration_type": "helper",
+  "iot_class": "calculated"
+}
