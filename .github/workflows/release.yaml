@@ -47,6 +47,6 @@ jobs:
           tag=$(./bin/version.sh)
           gh release create "$tag" \
               --generate-notes \
-              --draft
+              --prerelease
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
