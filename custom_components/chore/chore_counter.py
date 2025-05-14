@@ -77,6 +77,6 @@ class CounterChore(SensorEntity, RestoreEntity):
         if self._platform_state == EntityPlatformState.ADDED:
             self.async_write_ha_state()
 
-    async def complete(self) -> None:
+    async def complete(self,*, reset_from_today: bool) -> None:  # noqa: ARG002
         self._counter_state = 0
         self._calculate_state()
