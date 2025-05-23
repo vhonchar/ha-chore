@@ -4,15 +4,15 @@
     "step": {
       "user": {
         "title": "Create Chore",
-        "description": "Chores allow you to track chores around the house, automatically advance them and receive notification when some maintenance is due.",
+        "description": "Chores allow you to track household tasks, automatically update their status, and receive notifications when something is due.",
         "menu_options": {
-          "scheduled": "Scheduled",
-          "counter": "Counter"
+          "scheduled": "Scheduled (interval-based)",
+          "counter": "Counter (usage-based)"
         }
       },
       "scheduled": {
         "title": "Create Scheduled Chore",
-        "description": "Schedule a chore: daily, weekly, etc",
+        "description": "Schedule a chore to recur daily, weekly, etc.",
         "data": {
           "name": "Name",
           "interval": "Interval",
@@ -22,7 +22,7 @@
       },
       "counter": {
         "title": "Create Counter Chore",
-        "description": "Chore based on a counter. For example: filter in dryer should be cleaned after N cycles. Cat's litter should be cleaned after X \"poops\"",
+        "description": "Track chores by a counter (e.g., clean the dryer filter after N cycles or clean the litter box after X uses).",
         "data": {
           "name": "Name",
           "limit": "Limit"
@@ -33,15 +33,15 @@
   "options": {
     "step": {
       "scheduled": {
-        "description": "Schedule a chore: daily, weekly, etc",
+        "description": "Schedule a chore to recur daily, weekly, etc.",
         "data": {
           "interval": "Interval",
           "interval_unit": "Interval unit",
-          "start_from": "Stat from"
+          "start_from": "Start from"
         }
       },
       "counter": {
-        "description": "Chore based on a counter. For example: filter in dryer should be cleaned after N cycles. Cat's litter should be cleaned after X \"poops\"",
+        "description": "Track chores by a counter (e.g., clean the dryer filter after N cycles or clean the litter box after X uses).",
         "data": {
           "limit": "Limit"
         }
@@ -51,31 +51,31 @@
   "services": {
     "increment": {
       "name": "Increment",
-      "description": "Increment counter in a chore (only for Counter Chore type)",
+      "description": "Only for chores of the Counter type.",
       "fields": {
         "increment": {
           "name": "Increment",
-          "description": "Increment to the sensor"
+          "description": "Use a negative number to decrement."
         }
       }
     },
     "set_counter": {
       "name": "Set Counter State",
-      "description": "Set state of a counter within a chore",
+      "description": "Set the current state of a counter-based chore.",
       "fields": {
         "counter_state": {
           "name": "Counter State",
-          "description": "New value for the counter"
+          "description": "New value for the counter."
         }
       }
     },
     "complete": {
       "name": "Complete",
-      "description": "Complete and reset specified chore",
+      "description": "Mark the chore as completed and reset it.",
       "fields": {
         "reset_from_today": {
           "name": "Reset from today",
-          "description": "Set next due date starting from today or from the \"last due date\". For example, if a chore should be done only on Wed every week, turn this flag off to set next due date to the next Wed upon completion. (applicable only to scheduled chores)"
+          "description": "Set the next due date starting from today or from the previous due date. For example, if a chore is due every Wednesday, turn this off to set the next due date to the next Wednesday upon completion. (Only applies to scheduled chores.)"
         }
       }
     }
