@@ -5,8 +5,12 @@ increment:
       domain: sensor
   fields:
     increment:
-      example: 1
+      required: false
       default: 1
+      selector:
+        number:
+          step: 1
+          mode: box
 
 set_counter:
   target:
@@ -15,8 +19,12 @@ set_counter:
       domain: sensor
   fields:
     counter_state:
-      example: 1
+      required: false
       default: 1
+      selector:
+        number:
+          step: 1
+          mode: box
 
 complete:
   target:
@@ -25,7 +33,8 @@ complete:
       domain: sensor
   fields:
     reset_from_today:
+      required: false
       example: true
       default: true
       selector:
-        boolean:
+        boolean: {}
